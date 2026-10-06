@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day Family Plan: fund selection and asset allocation for a family of four</title>
+<style>
+:root{--green:#0B3D2E;--emerald:#059669;--mint:#E8F5EE;--gold:#C9A227;--navy:#14213D;--red:#C0392B;
+--bg:#F6FBF8;--card:#FFFFFF;--ink:#10241C;--muted:#4B6358;--line:#D5E6DC;--hero1:#0B3D2E;--hero2:#14213D;--chip:#E8F5EE}
+[data-theme=dark]{--bg:#09160F;--card:#102219;--ink:#E6F3EB;--muted:#9DB8AA;--line:#1F3A2C;--mint:#143326;--chip:#143326;--hero1:#06281E;--hero2:#0B1530}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;line-height:1.5;font-size:16px}
+a{color:var(--emerald)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:14px;height:54px}
+header.top b{color:var(--green);font-size:15px}
+[data-theme=dark] header.top b{color:#34D399}
+nav{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}
+nav a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13px;padding:6px 10px;border-radius:8px}
+nav a:hover{background:var(--mint);color:var(--ink)}
+button.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:7px 12px;font-size:13px;cursor:pointer}
+button.btn:hover{background:var(--mint)}
+.hero{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:#fff;padding:52px 0 44px}
+.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.08;margin:0 0 14px;max-width:820px;letter-spacing:-.5px}
+.hero p.lead{font-size:18px;max-width:720px;color:#CFE8DB;margin:0 0 22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 13px;font-size:14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.tile{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:16px}
+.tile .n{font-size:30px;font-weight:700;color:#FCE08A;letter-spacing:-.5px}
+.tile .l{font-size:13px;color:#CFE8DB}
+.note-h{font-size:12px;color:#9FC4B2;margin-top:18px}
+section{padding:46px 0 10px}
+section h2{font-size:28px;margin:0 0 6px;color:var(--green);letter-spacing:-.3px}
+[data-theme=dark] section h2{color:#34D399}
+section p.sub{color:var(--muted);margin:0 0 20px;max-width:760px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.sl{margin-bottom:16px}
+.sl label{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:4px}
+.sl output{color:var(--emerald)}
+input[type=range]{width:100%;accent-color:var(--emerald)}
+.bar{height:14px;background:var(--mint);border-radius:8px;overflow:hidden;margin:6px 0 2px;position:relative}
+.bar i{display:block;height:100%;background:var(--emerald);border-radius:8px}
+.bar i.low{background:var(--red)}
+.gline{display:flex;justify-content:space-between;font-size:14px}
+.gl{margin-bottom:14px}
+.big{font-size:34px;font-weight:700;letter-spacing:-.5px;color:var(--green)}
+[data-theme=dark] .big{color:#34D399}
+.small{font-size:13px;color:var(--muted)}
+.gap{border-left:5px solid var(--gold);padding:10px 14px;background:var(--mint);border-radius:8px;margin-top:10px;font-size:14px}
+.gap.bad{border-color:var(--red)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--mint);font-weight:600}
+td.r,th.r{text-align:right;white-space:nowrap}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;background:var(--mint);color:var(--ink);border:1px solid var(--line)}
+.tag.a{background:#FFF4D1;border-color:#EBCB63;color:#6E5300}
+[data-theme=dark] .tag.a{background:#3A3010;color:#F5DD8A;border-color:#7A6516}
+.fund h3{margin:0 0 4px;font-size:17px}
+.fund .rk{float:right;background:var(--green);color:#fff;border-radius:999px;font-size:12px;padding:3px 10px}
+.fund .m{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:13px;margin:10px 0}
+.fund .m span{color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);color:var(--ink);padding:8px 16px;cursor:pointer;font-size:14px}
+.seg button.on{background:var(--emerald);color:#fff}
+svg text{fill:var(--ink);font-family:inherit}
+svg .ax{stroke:var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;margin-top:8px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line)}
+.check input{margin-top:4px;accent-color:var(--emerald);width:18px;height:18px}
+.check.done span{text-decoration:line-through;color:var(--muted)}
+.check small{display:block;color:var(--muted)}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:3px}
+.field input,.field select{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:15px}
+dl.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+dl.gloss div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+dl.gloss dt{font-weight:700;color:var(--green)}
+[data-theme=dark] dl.gloss dt{color:#34D399}
+dl.gloss dd{margin:2px 0 0;font-size:14px;color:var(--muted)}
+footer{margin-top:56px;background:var(--green);color:#CFE8DB;padding:30px 0;font-size:14px}
+footer b{color:#fff}
+.loss{color:var(--red);font-weight:600}
+@media print{header.top,.seg,button,.sl{display:none!important}body{background:#fff;color:#000}.hero{background:#fff!important;color:#000}.hero h1,.hero p.lead,.tile .l,.chip{color:#000!important}.tile .n{color:#0B3D2E}section{break-inside:avoid}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><b>Day Family Plan</b>
+<nav><a href="#goals">Goals</a><a href="#play">Try it</a><a href="#mix">Allocation</a><a href="#funds">Funds</a><a href="#proj">Projection</a><a href="#trap">Product trap</a><a href="#protect">Protection</a><a href="#actions">Action plan</a><a href="#gloss">Glossary</a></nav>
+<button class="btn" id="theme">Dark</button><button class="btn" onclick="window.print()">Print</button></div></header>
+
+<div class="hero"><div class="wrap">
+<h1 id="h1">Start with ₹32,000 a month, raise it 7% a year, and all three big goals are funded.</h1>
+<p class="lead" id="lead"></p>
+<div class="chips"><span class="chip">Aneesh, 36, consultant and trainer</span><span class="chip">Meera, 34, school teacher</span><span class="chip">Ishaan, 10</span><span class="chip">Myra, 6</span><span class="chip">Take-home ₹1,50,000 a month</span></div>
+<div class="tiles" id="tiles"></div>
+<div class="note-h">This family is a hypothetical case. All personal and financial details are assumed for the exercise.</div>
+</div></div>
+
+<div class="wrap">
+<section id="goals"><h2>The goals, in the order they fall due</h2><p class="sub">Protection and the emergency fund come first. Then Ishaan, Myra and retirement. The car and the holiday are wants, so they wait.</p>
+<div class="card"><svg id="timeline" viewBox="0 0 1040 270" width="100%" role="img" aria-label="Goals timeline"></svg></div></section>
+
+<section id="play"><h2>Move the sliders, watch the plan</h2><p class="sub">Every number below is calculated live with the same formulas as the Excel workbook. At the starting settings the results match the workbook.</p>
+<div class="grid2"><div class="card" id="sliders"></div><div class="card" id="results"></div></div></section>
+
+<section id="mix"><h2>Where the money goes</h2><p class="sub">Core funds are at least 85% of the portfolio. The satellite (gold and a small overseas fund) stays well under the 15% limit. Seven funds in total, all Direct plans, Growth option only.</p>
+<div class="grid2"><div class="card"><svg id="donut" viewBox="0 0 360 260" width="100%"></svg><div class="legend" id="donutLegend"></div></div><div class="card" id="mixTable"></div></div></section>
+
+<section id="funds"><h2>The funds and what each one does</h2><p class="sub">Risk numbers for the equity funds are illustrative, from class notes. Expense ratio, manager tenure and rolling return rating are assumed: check Value Research Online and Moneycontrol before buying.</p>
+<div class="grid3" id="fundCards"></div></section>
+
+<section id="proj"><h2>Where the family ends up</h2><p class="sub">Invested assets by year (emergency fund, children's buckets, retirement SIP, PPF, NPS and the existing equity fund). Pick a market. The dips in year 8 and year 12 are the college fees being paid.</p>
+<div class="card"><div class="seg" id="scen"><button data-s="bull">Bull</button><button data-s="base" class="on">Base</button><button data-s="bear">Bear</button></div>
+<svg id="line" viewBox="0 0 1000 340" width="100%" style="margin-top:12px"></svg><div class="legend" id="lineLegend"></div>
+<div id="scenTable" style="margin-top:14px"></div></div></section>
+
+<section id="trap"><h2>Product trap calculator</h2><p class="sub">Agents sell endowment plans on the absolute return. We ask for the yearly rate (IRR) and the real rate after inflation. The starting numbers are the family's existing plan.</p>
+<div class="grid2"><div class="card" id="trapIn"></div><div class="card" id="trapOut"></div></div></section>
+
+<section id="protect"><h2>Protection gap checker</h2><p class="sub">Term cover is for the family, not for saving. Premiums are our estimates (assumed), so get real quotes.</p>
+<div class="grid2"><div class="card" id="protIn"></div><div class="card" id="protOut"></div></div></section>
+
+<section id="actions"><h2>Action plan</h2><p class="sub">Tick each step as you do it. Your ticks stay in this browser.</p><div class="card" id="checks"></div></section>
+
+<section id="gloss"><h2>Words from class</h2><p class="sub">Short, plain meanings.</p><dl class="gloss" id="glossary"></dl></section>
+</div>
+
+<footer><div class="wrap"><p><b>Academic exercise, not investment advice.</b></p>
+<p>This family is a hypothetical case. All personal and financial details are assumed for the exercise.</p>
+<p>Jyoti Budhawant (25020448042), Naman Tyagi (25020448058), Siddhant Pradhan (25020448111). Introduction to Financial Markets and Institutions, Executive MBA 2025-2027, Symbiosis Institute of Management Studies, Khadki, Pune.</p></div></footer>
+
+<script>
+
+const BASE={a_age:36,i_age:10,my_age:6,edu_age:18,edu_n:4,edu_cost:1500000,edu_inf:0.08,ret_age:60,pen_pm:50000,pen_till:85,
+ sip0:32000,g:0.07,ef_top:10000,ef_months:20,eq:0.12,debt:0.0775,liq:0.0625,gold:0.08,ppf_r:0.071,nps_r:0.09,infl:0.05,
+ ppf:300000,nps:100000,mf:200000,ef_have:350000,e0_i:0.70,e0_m:0.75,adj_r:0.06,gold_s:0.05};
+function pmt(rate,n,pv,fv){ if(rate===0) return -(pv+fv)/n; const f=Math.pow(1+rate,n); return -(rate*(pv*f+fv))/(f-1); }
+function fvSIPfactor(r,n,g){ const i=r/12, e=Math.pow(1+i,12); let den=e-(1+g); if(Math.abs(den)<1e-9) den=1e-9; return ((e-1)/i)*(Math.pow(1+i,12*n)-Math.pow(1+g,n))/den; }
+function glideEdu(n,e0){ const out=[]; for(let t=1;t<=n;t++){ const left=n-t+1; out.push(left>=4?e0:e0*(left-1)/3);} return out; }
+function avg(a){ return a.reduce((x,y)=>x+y,0)/a.length; }
+function rates(p,eq,debt){
+  const nI=p.edu_age-p.i_age, nM=p.edu_age-p.my_age, nR=p.ret_age-p.a_age;
+  const gi=glideEdu(nI,p.e0_i), gm=glideEdu(nM,p.e0_m);
+  const rI=avg(gi.map(e=>e*eq+(1-e)*debt)), rM=avg(gm.map(e=>e*eq+(1-e)*debt));
+  const er=[]; for(let t=1;t<=nR;t++){ const age=p.a_age+t-1; er.push(Math.min(0.85,Math.max(0.4,(100-age)/100+p.adj_r))); }
+  const rR=avg(er.map(e=>(e-p.gold_s)*eq+p.gold_s*p.gold+(1-e)*debt));
+  return {nI,nM,nR,rI,rM,rR,eqI:avg(gi),eqM:avg(gm),eqR:avg(er),er};
+}
+function targets(p,infl,einf,eq,debt){
+  const R=rates(p,eq,debt);
+  const fee=p.edu_cost/p.edu_n;
+  const edu=n=>{ let t=0; for(let k=0;k<4;k++){ t+=fee*Math.pow(1+einf,n+k)/Math.pow(1+debt,k);} return t; };
+  const tI=edu(R.nI), tM=edu(R.nM);
+  const fv1=p.pen_pm*12*Math.pow(1+infl,R.nR);
+  const w=(100-p.ret_age)/100*eq+(1-(100-p.ret_age)/100)*debt;
+  const N=p.pen_till-p.ret_age+1;
+  let corpus=0; for(let k=0;k<N;k++){ corpus+=fv1*Math.pow(1+infl,k)/Math.pow(1+w,k+1); }
+  const exist=p.ppf*Math.pow(1+p.ppf_r,R.nR)+p.nps*Math.pow(1+p.nps_r,R.nR)+p.mf*Math.pow(1+eq,R.nR);
+  return {R,tI,tM,corpus,exist,netR:corpus-exist,fv1,w,N};
+}
+function needs(p,T){
+  const R=T.R;
+  const sI=T.tI/fvSIPfactor(R.rI,R.nI,p.g), sM=T.tM/fvSIPfactor(R.rM,R.nM,p.g), sR=T.netR/fvSIPfactor(R.rR,R.nR,p.g);
+  const tot=sI+sM+sR; return {sI,sM,sR,tot,sh:{I:sI/tot,M:sM/tot,R:sR/tot}};
+}
+function engine(p,R,sh,rr){
+  // rr: {I,M,R} monthly-compounded annual rates for each bucket
+  const nmI=R.nI*12,nmM=R.nM*12,nmR=R.nR*12,N=Math.max(nmR,nmM,nmI);
+  let bI=0,bM=0,bR=0,ef=0; const rows=[]; const efm=p.ef_months;
+  for(let m=1;m<=N;m++){
+    const y=Math.floor((m-1)/12);
+    const tot=m<=nmR?(p.sip0+(m>efm?p.ef_top:0))*Math.pow(1+p.g,y):0;
+    const dI=m<=nmI?tot*sh.I:0, dM=m<=nmM?tot*sh.M:0, dR=tot*sh.R;
+    bI=m<=nmI?bI*(1+rr.I/12)+dI:0; bM=m<=nmM?bM*(1+rr.M/12)+dM:0; bR=m<=nmR?bR*(1+rr.R/12)+dR:0;
+    ef=m<=efm?ef*(1+p.liq/12)+p.ef_top:ef*(1+p.liq/12);
+    rows.push({m,tot,bI,bM,bR,ef});
+  }
+  return rows;
+}
+function run(p,opt){
+  opt=opt||{}; const infl=opt.infl!==undefined?opt.infl:p.infl, einf=opt.einf!==undefined?opt.einf:p.edu_inf, eq=opt.eq!==undefined?opt.eq:p.eq, debt=p.debt;
+  const T0=targets(p,p.infl,p.edu_inf,p.eq,p.debt), n0=needs(p,T0);
+  const sh=opt.sh||n0.sh;
+  const T=targets(p,infl,einf,eq,debt), R=T.R;
+  const rows=engine(p,R,sh,{I:R.rI,M:R.rM,R:R.rR});
+  const at=(m,k)=>rows[m-1][k];
+  const balI=at(R.nI*12,'bI'), balM=at(R.nM*12,'bM'), balR=at(R.nR*12,'bR');
+  const proj=[];
+  for(let y=1;y<=R.nR;y++){
+    const m=y*12, r=rows[m-1];
+    const ex=p.ppf*Math.pow(1+p.ppf_r,y)+p.nps*Math.pow(1+p.nps_r,y)+p.mf*Math.pow(1+eq,y);
+    proj.push({y,age:p.a_age+y,I:r.bI,M:r.bM,R:r.bR,ex,ef:p.ef_have+r.ef,inv:r.bI+r.bM+r.bR+ex+p.ef_have+r.ef,sip:r.tot});
+  }
+  return {T,R,n0,sh,rows,balI,balM,balR,fI:balI/(T.tI),fM:balM/T.tM,fR:balR/T.netR,proj,
+    noRedirect:p.sip0/n0.tot};
+}
+
+</script>
+<script>
+const DATA={"ef_target": 555208.182005796, "tg_i": 2786072.89886162, "tg_m": 3790421.42065643, "corpus": 28705451.7573495, "rule100": 0.64, "buffer": 2965.30299903399, "endow_free": 4166.66666666667, "funds": [["HDFC Flexi Cap", 16.51, 12.88, 0.82, 11.358, 5.152, 0.839285714285714, 13.1829268292683, 0.8, 4, 4, 3, 3, 3, 2, 2, 4, 2.9, 2], ["Parag Parikh Flexi Cap", 13.63, "n/a", 0.6, 9.84, 3.79, "n/a", 13.2166666666667, 0.69, 13, 4, 2, 4, 4, 3, 4, 4, 3.45, 1], ["ITI Flexi Cap", 19.52, 17.3, 1.07, 13.083, 6.437, 0.798843930635838, 12.9158878504673, 0.9, 3, 3, 4, 2, 1, 1, 1, 2, 1.95, 4], ["HDFC Nifty 50 Index", 11.47, "n/a", 1, 12.6, -1.13, "n/a", 5.77, 0.2, 5, 3, 1, 1, 2, 4, 3, 2, 2, 3]], "mix": [["HDFC Flexi Cap (existing holding)", 0, 0, 0, 0.25], ["Parag Parikh Flexi Cap", 0, 0.3, 0.35, 0.2], ["HDFC Nifty 50 Index", 0, 0.4, 0.35, 0.15], ["Corporate bond fund", 0, 0.3, 0.25, 0.3], ["Liquid fund", 1, 0, 0, 0], ["Gold ETF or gold fund", 0, 0, 0, 0.05], ["Nasdaq 100 index fund of fund", 0, 0, 0.05, 0.05], ["Total", 1, 1, 1, 1], ["Equity share at start (equity funds + Nasdaq)", 0, 0.7, 0.75, 0.65], ["Weighted return at start (SUMPRODUCT)", 0.0625, 0.10725, 0.109375, 0.10525]], "newmix": [["HDFC Flexi Cap (existing holding)", 0.0760354082363164, "Equity", "Core"], ["Parag Parikh Flexi Cap", 0.283034274809022, "Equity", "Core"], ["HDFC Nifty 50 Index", 0.310516153660135, "Equity", "Core"], ["Corporate bond fund", 0.286551561896451, "Debt", "Core"], ["Liquid fund", 0, "Cash", "Core"], ["Gold ETF or gold fund", 0.0152070816472633, "Gold", "Satellite"], ["Nasdaq 100 index fund of fund", 0.0286555197508119, "International", "Satellite"], ["Total", 1, null, null], ["Core share", 0.956137398601925, null, null], ["Satellite share (limit 15 percent)", 0.0438626013980752, null, null], ["Satellite within limit?", "Yes", null, null], ["Equity and international share of new money", 0.698241356456285, null, null], ["Weighted return of new money (SUMPRODUCT)", 0.10721327535351, null, null], ["Funds used including the liquid fund (must be 8 or fewer)", 7, null, null], ["Rule of 100 equity share (first cut)", 0.64, null, null], ["Gap to Rule of 100", 0.0582413564562854, null, null]]};
+const $=s=>document.querySelector(s);
+const inr=n=>{const a=Math.abs(n),s=n<0?"-":"";if(a>=1e7)return s+"₹"+(a/1e7).toFixed(2)+" Cr";if(a>=1e5)return s+"₹"+(a/1e5).toFixed(2)+" L";return s+"₹"+Math.round(a).toLocaleString("en-IN");};
+const full=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const pc=(x,d=1)=>(x*100).toFixed(d)+"%";
+const P=Object.assign({},BASE);
+let scen="base";
+// theme
+const root=document.documentElement;
+$("#theme").onclick=()=>{const d=root.dataset.theme==="dark";root.dataset.theme=d?"light":"dark";$("#theme").textContent=d?"Dark":"Light";draw();};
+// sliders
+const SL=[["sip0","Monthly SIP to start with",20000,50000,500,v=>full(v)],["g","Yearly step-up",0,0.12,0.005,v=>pc(v)],["eq","Equity return a year",0.08,0.15,0.005,v=>pc(v)],["infl","General inflation",0.03,0.08,0.005,v=>pc(v)],["ret_age","Retirement age",55,65,1,v=>v+" years"],["edu_cost","Higher education cost for each child, today",1000000,2500000,50000,v=>inr(v)]];
+$("#sliders").innerHTML=SL.map(s=>`<div class="sl"><label><span>${s[1]}</span><output id="o_${s[0]}">${s[5](P[s[0]])}</output></label><input type="range" id="r_${s[0]}" min="${s[2]}" max="${s[3]}" step="${s[4]}" value="${P[s[0]]}"></div>`).join("")+`<button class="btn" id="reset">Reset to the plan</button>`;
+SL.forEach(s=>{$("#r_"+s[0]).oninput=e=>{P[s[0]]=parseFloat(e.target.value);$("#o_"+s[0]).textContent=s[5](P[s[0]]);update();};});
+$("#reset").onclick=()=>{Object.assign(P,BASE);SL.forEach(s=>{$("#r_"+s[0]).value=P[s[0]];$("#o_"+s[0]).textContent=s[5](P[s[0]]);});update();};
+let M;
+function update(){
+  M=run(P);
+  const f=x=>`<div class="bar"><i class="${x<1?"low":""}" style="width:${Math.min(100,x*100)}%"></i></div>`;
+  const gl=(n,t,x,bal)=>`<div class="gl"><div class="gline"><b>${n}</b><span>${pc(x,0)} funded</span></div>${f(x)}<div class="small">Needs ${inr(t)} on the day. The plan builds ${inr(bal)}.</div></div>`;
+  const gap=M.n0.tot-P.sip0;
+  $("#results").innerHTML=`<div class="small">Retirement corpus needed at ${P.ret_age}</div><div class="big">${inr(M.T.corpus)}</div>
+  <div class="small" style="margin-bottom:14px">Existing PPF, NPS and equity fund grow to ${inr(M.T.exist)}. The SIP builds the rest.</div>
+  ${gl("Ishaan, college at 18",M.T.tI,M.fI,M.balI)}${gl("Myra, college at 18",M.T.tM,M.fM,M.balM)}${gl("Retirement (SIP part)",M.T.netR,M.fR,M.balR)}
+  <table><tr><th>Where the SIP goes</th><th class="r">First month</th></tr>
+  <tr><td>Ishaan</td><td class="r">${full(P.sip0*M.sh.I)}</td></tr><tr><td>Myra</td><td class="r">${full(P.sip0*M.sh.M)}</td></tr><tr><td>Retirement</td><td class="r">${full(P.sip0*M.sh.R)}</td></tr></table>
+  <div class="gap ${gap>0?"":"bad"}" style="${gap>0?"":"border-color:var(--emerald)"}">${gap>0?`The three goals need ${full(M.n0.tot)} a month at the start. You start with ${full(P.sip0)}, so the gap is ${full(gap)}. The ${full(P.ef_top)} emergency top-up joins the SIP from month ${P.ef_months+1}, which closes it.`:`The SIP covers the ${full(M.n0.tot)} the goals need at the start.`}</div>`;
+  $("#tiles").innerHTML=[[full(P.sip0),"monthly SIP at the start"],[full(P.sip0+P.ef_top),"monthly SIP after the emergency fund is full"],[inr(M.T.corpus),"retirement corpus at "+P.ret_age],[inr(M.T.tI),"Ishaan corpus at 18"],[inr(M.T.tM),"Myra corpus at 18"]].map(t=>`<div class="tile"><div class="n">${t[0]}</div><div class="l">${t[1]}</div></div>`).join("");
+  const lo=Math.min(M.fI,M.fM,M.fR);
+  $("#lead").textContent=`Seven Direct growth funds, a bigger term and health cover, and a ${full(DATA.ef_target)} emergency fund. At the base case every goal ends above 100% funded, with a cushion of ${pc(Math.min(M.fI,M.fM,M.fR)-1,0)} to ${pc(Math.max(M.fI,M.fM,M.fR)-1,0)} for tax and bad years.`;
+  draw();
+}
+// timeline
+function timeline(){
+  const dark=root.dataset.theme==="dark";
+  const ev=[[2026.8,"Today","Plan starts","#0B3D2E",0],[2028.5,"2028","Emergency fund full, SIP rises to 42,000","#059669",1],[2031,"2031","Ishaan: STP to debt starts","#C9A227",0],[2034.8,"2034","Ishaan college (corpus "+inr(DATA.tg_i)+")","#14213D",1],[2035.8,"2035","Myra: STP to debt starts","#C9A227",0],[2038.8,"2038","Myra college (corpus "+inr(DATA.tg_m)+")","#14213D",1],[2046.8,"2046","Home loan ends","#059669",0],[2050.8,"2050","Aneesh retires at 60 (corpus "+inr(DATA.corpus)+")","#0B3D2E",1]];
+  const x=y=>90+(y-2026)*(860/25);
+  let s=`<line x1="70" y1="125" x2="990" y2="125" stroke="${dark?"#2C5A44":"#9FD3B9"}" stroke-width="6" stroke-linecap="round"/>`;
+  ev.forEach(e=>{const cx=x(e[0]),up=e[4]===1;const ty=up?70:178;
+    s+=`<circle cx="${cx}" cy="125" r="9" fill="${e[3]}" stroke="#fff" stroke-width="2"/><line x1="${cx}" y1="125" x2="${cx}" y2="${up?92:158}" stroke="${e[3]}" stroke-width="2"/>`;
+    s+=`<text x="${cx}" y="${up?ty-14:ty+10}" text-anchor="middle" font-size="15" font-weight="700">${e[1]}</text>`;
+    const words=e[2].split(" ");let line="",lines=[];words.forEach(w=>{if((line+" "+w).length>18){lines.push(line);line=w}else line=(line?line+" ":"")+w});lines.push(line);
+    lines.forEach((l,i)=>{s+=`<text x="${cx}" y="${(up?ty+4:ty+28)+i*14}" text-anchor="middle" font-size="11.5" fill="${dark?"#9DB8AA":"#4B6358"}">${l}</text>`});
+  });
+  s+=`<text x="40" y="258" font-size="12" fill="${dark?"#9DB8AA":"#4B6358"}">The car upgrade (extra ₹4 lakh) moves to year 6 and uses the leftover cash plus the freed endowment premium. The holiday stays inside the lifestyle budget.</text>`;
+  $("#timeline").innerHTML=s;
+}
+// donut + mix
+const COL=["#0B3D2E","#059669","#34D399","#14213D","#9CA3AF","#C9A227","#6B7280"];
+function donut(){
+  const sh=M.sh;const mix=DATA.mix; // rows: 7 funds then totals
+  const w=DATA.newmix.slice(0,7).map((r,k)=>({n:r[0],v:sh.I*mix[k][2]+sh.M*mix[k][3]+sh.R*mix[k][4],c:COL[k]})).filter(d=>d.v>0.0001);
+  const tot=w.reduce((a,b)=>a+b.v,0);let a0=-Math.PI/2,s="";const cx=130,cy=130,R=110,r=66;
+  w.forEach(d=>{const a1=a0+d.v/tot*2*Math.PI,large=a1-a0>Math.PI?1:0;
+    const p=(ang,rad)=>[cx+rad*Math.cos(ang),cy+rad*Math.sin(ang)];const [x0,y0]=p(a0,R),[x1,y1]=p(a1,R),[x2,y2]=p(a1,r),[x3,y3]=p(a0,r);
+    s+=`<path d="M${x0} ${y0} A${R} ${R} 0 ${large} 1 ${x1} ${y1} L${x2} ${y2} A${r} ${r} 0 ${large} 0 ${x3} ${y3}Z" fill="${d.c}"><title>${d.n} ${pc(d.v)}</title></path>`;a0=a1;});
+  const sat=w.filter(d=>/Gold|Nasdaq/.test(d.n)).reduce((a,b)=>a+b.v,0);
+  s+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="26" font-weight="700">${pc(1-sat,0)}</text><text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="12">core</text>`;
+  s+=`<g transform="translate(262,70)"><rect width="84" height="64" rx="10" fill="${COL[5]}" opacity=".18"/><text x="42" y="28" text-anchor="middle" font-size="22" font-weight="700">${pc(sat,1)}</text><text x="42" y="48" text-anchor="middle" font-size="12">satellite</text></g>`;
+  $("#donut").innerHTML=s;
+  $("#donutLegend").innerHTML=w.map(d=>`<span><i style="background:${d.c}"></i>${d.n} ${pc(d.v)}</span>`).join("");
+  const goals=["Emergency fund","Ishaan","Myra","Retirement SIP"];
+  $("#mixTable").innerHTML=`<table><tr><th>Fund</th>${goals.map(g=>`<th class="r">${g}</th>`).join("")}</tr>`+mix.slice(0,7).map(r=>`<tr><td>${r[0]}</td>${[1,2,3,4].map(i=>`<td class="r">${r[i]?pc(r[i],0):""}</td>`).join("")}</tr>`).join("")+`<tr><th>Equity share at start</th>${[1,2,3,4].map(i=>`<th class="r">${pc(mix[8][i],0)}</th>`).join("")}</tr><tr><th>Expected return at start</th>${[1,2,3,4].map(i=>`<th class="r">${pc(mix[9][i],2)}</th>`).join("")}</tr></table><p class="small">Rule of 100 gives ${pc(DATA.rule100,0)} equity at age 36. Education buckets fall to zero equity over the last 3 years through STP. Existing PPF and NPS stay and count toward retirement.</p>`;
+}
+// fund cards
+const ROLE={"HDFC Flexi Cap":"Growth engine. Already held, so the SIP simply continues.","Parag Parikh Flexi Cap":"Lowest beta of the four, with some overseas stocks. New SIP money goes here first.","ITI Flexi Cap":"Highest alpha but the most volatile. Dropped: it does not fit Meera's caution.","HDFC Nifty 50 Index":"Cheap market return that keeps the equity part simple."};
+function cards(){
+  const f=DATA.funds.slice().sort((a,b)=>a[18]-b[18]);
+  const n=x=>typeof x==="number"?x.toFixed(2):"n/a";
+  let h=f.map(r=>`<div class="card fund"><span class="rk">${r[18]===4?"Dropped":"Rank "+r[18]}</span><h3>${r[0]}</h3><span class="tag a">illustrative, from class notes</span>
+  <div class="m"><span>Return Rp</span><b>${n(r[1])}%</b><span>Std deviation</span><b>${typeof r[2]==="number"?n(r[2])+"%":"n/a in notes"}</b><span>Beta</span><b>${n(r[3])}</b><span>Alpha</span><b>${n(r[5])}%</b><span>Sharpe</span><b>${n(r[6])}</b><span>Treynor</span><b>${n(r[7])}</b><span>Expense ratio</span><b>${n(r[8])}% <span class="tag a">assumed</span></b><span>Score (max 4)</span><b>${n(r[17])}</b></div><div class="small">${ROLE[r[0]]}</div></div>`).join("");
+  h+=[["Corporate bond fund","Stable debt part for the education and retirement buckets. Example: HDFC Corporate Bond (check live data)."],["Liquid fund","Holds the emergency fund and feeds every STP. Example: HDFC Liquid (check live data)."],["Gold fund and Nasdaq 100 fund of fund","Two small satellite slices, under 5% of new money. Check that fresh SIPs are open."]].map(x=>`<div class="card fund"><h3>${x[0]}</h3><span class="tag a">category level, no return quoted</span><p class="small">${x[1]}</p></div>`).join("");
+  $("#fundCards").innerHTML=h;
+}
+// projection
+function drawLine(){
+  const dark=root.dataset.theme==="dark";
+  const S={bull:{eq:P.eq+0.02,infl:P.infl-0.01,einf:P.edu_inf-0.01,c:"#C9A227"},base:{c:"#059669"},bear:{eq:P.eq-0.02,infl:P.infl+0.01,einf:P.edu_inf+0.01,c:"#C0392B"}};
+  const res={};["bull","base","bear"].forEach(k=>{res[k]=k==="base"?M:run(P,Object.assign({sh:M.sh},S[k]))});
+  const ys=res.base.proj.map(p=>p.y);const maxV=Math.max(...res.bull.proj.map(p=>p.inv))*1.05;
+  const W=1000,H=340,L=70,B=36,T=14,Rr=14;const x=y=>L+(y-1)/(ys.length-1)*(W-L-Rr),yy=v=>T+(1-v/maxV)*(H-T-B);
+  let s="";for(let i=0;i<=4;i++){const v=maxV*i/4,py=yy(v);s+=`<line class="ax" x1="${L}" x2="${W-Rr}" y1="${py}" y2="${py}"/><text x="${L-8}" y="${py+4}" text-anchor="end" font-size="11">${inr(v)}</text>`;}
+  ys.forEach((y,i)=>{if(y%4===0||y===1||y===ys.length)s+=`<text x="${x(y)}" y="${H-12}" text-anchor="${y===ys.length?"end":"middle"}" font-size="11">Yr ${y} (age ${P.a_age+y})</text>`});
+  ["bear","bull","base"].forEach(k=>{const on=k===scen;const pts=res[k].proj.map(p=>`${x(p.y)},${yy(p.inv)}`).join(" ");s+=`<polyline fill="none" stroke="${S[k].c}" stroke-width="${on?4:2}" opacity="${on?1:.35}" points="${pts}"/>`;});
+  const last=res[scen].proj[ys.length-1];s+=`<text x="${x(ys.length)-6}" y="${yy(last.inv)-10}" text-anchor="end" font-size="13" font-weight="700">${inr(last.inv)} at ${P.ret_age}</text>`;
+  $("#line").innerHTML=s;
+  $("#lineLegend").innerHTML=[["bull","Bull: equity "+pc(P.eq+0.02,0)],["base","Base: equity "+pc(P.eq,0)],["bear","Bear: equity "+pc(P.eq-0.02,0)+", inflation +1%"]].map(a=>`<span><i style="background:${S[a[0]].c}"></i>${a[1]}</span>`).join("");
+  const row=(n,k)=>`<tr><td>${n}</td>${["bull","base","bear"].map(s=>`<td class="r ${res[s][k]<1?"loss":""}">${pc(res[s][k],0)}</td>`).join("")}</tr>`;
+  $("#scenTable").innerHTML=`<table><tr><th>Funded on the goal date</th><th class="r">Bull</th><th class="r">Base</th><th class="r">Bear</th></tr>${row("Ishaan education","fI")}${row("Myra education","fM")}${row("Retirement (SIP part)","fR")}</table><p class="small">Red means the goal falls short in that market. In the bear case retirement is the one that suffers, because 24 years of higher inflation lifts the pension target. The fixes at the 6 monthly review: raise the step-up, trim the car, or retire a year or two later.</p>`;
+}
+document.querySelectorAll("#scen button").forEach(b=>b.onclick=()=>{scen=b.dataset.s;document.querySelectorAll("#scen button").forEach(x=>x.classList.toggle("on",x===b));drawLine();});
+// product trap
+const TR={prem:50000,pay:15,term:25,x:2,b:4,infl:0.05};
+function irr(cf){let lo=-0.5,hi=1;const f=r=>cf.reduce((a,c,i)=>a+c/Math.pow(1+r,i),0);for(let k=0;k<200;k++){const m=(lo+hi)/2;if(f(m)>0)lo=m;else hi=m;}return (lo+hi)/2;}
+function trap(){
+  $("#trapIn").innerHTML=[["prem","Premium a year",1000,200000,1000,v=>full(v)],["pay","Years you pay",5,30,1,v=>v+" years"],["term","Policy term",10,40,1,v=>v+" years"],["x","Maturity: times the total premiums",1,3,0.1,v=>v.toFixed(1)+"x"],["b","Plus bonus: times one premium",0,8,0.5,v=>v.toFixed(1)+"x"],["infl","Inflation",0.03,0.08,0.005,v=>pc(v)]].map(s=>`<div class="sl"><label><span>${s[1]}</span><output id="t_${s[0]}">${s[5](TR[s[0]])}</output></label><input type="range" id="tr_${s[0]}" min="${s[2]}" max="${s[3]}" step="${s[4]}" value="${TR[s[0]]}"></div>`).join("");
+  ["prem","pay","term","x","b","infl"].forEach(k=>{const el=$("#tr_"+k);el.oninput=e=>{TR[k]=parseFloat(e.target.value);if(TR.pay>TR.term){TR.pay=TR.term;$("#tr_pay").value=TR.pay;}trapOut();};});
+  trapOut();
+}
+function trapOut(){
+  const tot=TR.prem*TR.pay,mat=TR.x*tot+TR.b*TR.prem;const cf=[];for(let t=0;t<=TR.term;t++)cf.push((t<TR.pay?-TR.prem:0)+(t===TR.term?mat:0));
+  const r=irr(cf),real=(1+r)/(1+TR.infl)-1,abs=(mat-tot)/tot;
+  const sipFV=TR.prem*((Math.pow(1+0.12/12,TR.pay*12)-1)/(0.12/12))/12*Math.pow(1.12,TR.term-TR.pay)*0+ (()=>{const i=0.12/12;return (TR.prem/12)*((Math.pow(1+i,TR.pay*12)-1)/i)*Math.pow(1.12,TR.term-TR.pay);})();
+  $("#trapOut").innerHTML=`<div class="small">What the agent says: absolute return</div><div class="big" style="color:var(--gold)">${pc(abs,0)}</div>
+  <div class="small">What you really earn each year (IRR)</div><div class="big">${pc(r,2)}</div>
+  <div class="small">After inflation (real return)</div><div class="big ${real<0?"loss":""}">${pc(real,2)}</div>
+  <table><tr><td>Total premiums</td><td class="r">${inr(tot)}</td></tr><tr><td>Maturity</td><td class="r">${inr(mat)}</td></tr><tr><td>Years to double at this IRR (rule of 72)</td><td class="r">${(72/(r*100)).toFixed(1)}</td></tr><tr><td>Same premiums as a monthly SIP at 12% (assumed), same date</td><td class="r">${inr(sipFV)}</td></tr></table>
+  <p class="small">Premiums are paid at the start of each year, maturity comes at the end of the term, as in the class sheet. The SIP row shows what the same money could grow to if the return held. It is not guaranteed. Term insurance covers the life risk separately.</p>`;
+}
+// protection
+const PR={inc:1400000,mult:15000000/1400000,exist:10000000,minc:480000,mmult:5000000/480000,mexist:0,health:500000};
+function prot(){
+  const f=[["inc","Aneesh income a year","number"],["mult","Cover as multiple of his income","range:5:15:0.01"],["exist","Existing term cover on Aneesh","number"],["minc","Meera income a year","number"],["mmult","Cover as multiple of her income","range:5:15:0.01"],["mexist","Existing term cover on Meera","number"],["health","Existing health cover","number"]];
+  $("#protIn").innerHTML=f.map(a=>{const r=a[2].startsWith("range");const p=a[2].split(":");return `<div class="field"><label>${a[1]}${r?` <output id="po_${a[0]}">${PR[a[0]].toFixed(1)}x</output>`:""}</label><input id="p_${a[0]}" type="${r?"range":"number"}" ${r?`min="${p[1]}" max="${p[2]}" step="${p[3]}"`:'step="100000"'} value="${PR[a[0]]}"></div>`}).join("");
+  f.forEach(a=>{$("#p_"+a[0]).oninput=e=>{PR[a[0]]=parseFloat(e.target.value)||0;if($("#po_"+a[0]))$("#po_"+a[0]).textContent=PR[a[0]].toFixed(1)+"x";protOut();};});
+  protOut();
+}
+function protOut(){
+  const ta=PR.inc*PR.mult,tm=PR.minc*PR.mmult,ga=Math.max(0,ta-PR.exist),gm=Math.max(0,tm-PR.mexist),gh=Math.max(0,1000000-PR.health);
+  const prem=ga/100000*140+gm/100000*130+(gh>0?24000+7500-15000:0);
+  const buf=DATA.buffer*12;
+  $("#protOut").innerHTML=`<table><tr><th></th><th class="r">Target</th><th class="r">Have</th><th class="r">Gap</th></tr>
+  <tr><td>Aneesh term</td><td class="r">${inr(ta)}</td><td class="r">${inr(PR.exist)}</td><td class="r ${ga>0?"loss":""}">${inr(ga)}</td></tr>
+  <tr><td>Meera term</td><td class="r">${inr(tm)}</td><td class="r">${inr(PR.mexist)}</td><td class="r ${gm>0?"loss":""}">${inr(gm)}</td></tr>
+  <tr><td>Health floater</td><td class="r">₹10 L + ₹25 L top-up</td><td class="r">${inr(PR.health)}</td><td class="r ${gh>0?"loss":""}">${inr(gh)} base</td></tr></table>
+  <div class="big" style="margin-top:12px">${full(prem/12)} a month</div><div class="small">Estimated extra premium (assumed rates: about ₹140 a year per lakh for Aneesh, ₹130 for Meera, health from the workbook).</div>
+  <div class="gap ${prem/12<=DATA.buffer+DATA.endow_free?"":"bad"}" style="${prem/12<=DATA.buffer+DATA.endow_free?"border-color:var(--emerald)":""}">The plan has ${full(DATA.buffer)} a month left over (${full(DATA.buffer+DATA.endow_free)} if the endowment is made paid-up). ${prem/12<=DATA.buffer?"The new cover fits.":"This cover is more than the leftover cash. Use the freed endowment premium or trim the cover."}</div>`;
+}
+// checklist
+const ACT=[["First 30 days","Ask for term quotes: ₹50 L extra on Aneesh, ₹50 L on Meera."],["First 30 days","Start the ₹10,000 emergency top-up into a liquid fund by auto debit."],["First 30 days","Start the SIPs as split above. Direct plan, Growth option only."],["First 30 days","Ask the endowment insurer, in writing, for the paid-up and surrender value."],["First 30 days","Keep 3 months of SIP (about ₹96,000) in the liquid fund for slow business months."],["90 days","Move health cover to ₹10 L floater plus ₹25 L super top-up."],["90 days","Ask the bank for a 0.5% lower home loan rate, and keep the EMI the same."],["90 days","Set the 7% yearly step-up on every SIP."],["90 days","Write a will and name nominees everywhere."],["1 year","Emergency fund is full around month 20. Raise the SIP by ₹10,000 the next month."],["1 year","Rebalance once, and use the ₹1.25 lakh yearly equity exemption when selling."],["Every 6 months","Go back to Step 1: risk appetite, income, health, new goals, fund performance."],["Year 5 and year 9","Start the STP from equity to the bond fund for Ishaan and Myra."]];
+function checks(){
+  let st={};try{st=JSON.parse(localStorage.getItem("dayplan")||"{}")}catch(e){}
+  $("#checks").innerHTML=ACT.map((a,i)=>`<label class="check ${st[i]?"done":""}"><input type="checkbox" data-i="${i}" ${st[i]?"checked":""}><span><b>${a[0]}</b><small>${a[1]}</small></span></label>`).join("");
+  document.querySelectorAll("#checks input").forEach(c=>c.onchange=()=>{st[c.dataset.i]=c.checked;try{localStorage.setItem("dayplan",JSON.stringify(st))}catch(e){};c.closest(".check").classList.toggle("done",c.checked);});
+}
+const GL=[["SIP","Systematic Investment Plan. A fixed amount goes from your bank to a fund each month."],["STP","Systematic Transfer Plan. A fixed amount moves from one fund to another in the same fund house, for example liquid to equity."],["SWP","Systematic Withdrawal Plan. The fund pays you a fixed amount each month. We use it only after retirement."],["Switch","Moving a lump sum from one scheme to another in the same fund house."],["NAV","Net asset value. The price of one unit of a fund."],["Rule of 100","A shortcut: equity share is 100 minus your age, the rest is debt."],["Core and satellite","Core is the plain, diversified base (at least 85%). Satellite is the small extra: gold, overseas, REIT (at most 15%)."],["IRR","The yearly rate that turns your payments into the final amount. It respects time."],["Real return","Return after inflation: (1+rate) divided by (1+inflation), minus 1."],["Absolute return","Total gain with no time in it. Sales pitches love it."],["NPV","Today's value of a set of future payments. We use it for the pension corpus. Never add the payments up."],["PMT","Excel function for the regular amount needed or paid."],["Sharpe ratio","Extra return over the risk free rate for each unit of total risk. Higher is better."],["Sortino ratio","Like Sharpe, but counts only the bad years."],["Beta","How much a fund moves when the market moves. 1.3 means 13% for a 10% market move."],["Alpha","Return above what the fund's beta explains. Higher is better."],["Treynor ratio","Extra return for each unit of market risk (beta)."],["Glide path","Equity share falls step by step as a goal gets close."],["FIFO","First in, first out. The oldest units are sold first for tax."],["LTCG and STCG","Long and short term capital gains tax. Equity: 20% within a year, 12.5% after, with ₹1.25 lakh exempt each year."],["Direct and Growth","Direct plans have no agent commission. Growth reinvests gains. We never use IDCW."],["Endowment","Insurance plus savings. Often returns about 4 to 5% a year."],["Term insurance","Pure cover for the family. No maturity value, low premium."],["Emergency fund","6 months of essential spending in a liquid fund."]];
+function glossary(){$("#glossary").innerHTML=GL.map(g=>`<div><dt>${g[0]}</dt><dd>${g[1]}</dd></div>`).join("");}
+function draw(){timeline();donut();drawLine();}
+update();cards();trap();prot();checks();glossary();
+</script>
+</body></html>
